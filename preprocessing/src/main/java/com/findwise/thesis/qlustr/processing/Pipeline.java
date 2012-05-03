@@ -2,9 +2,6 @@ package com.findwise.thesis.qlustr.processing;
 
 import java.util.*;
 
-import com.findwise.jellyfish.core.*;
-import com.findwise.jellyfish.fields.*;
-
 /**
  * @author Martin Nycander (martin.nycander@gmail.com)
  */
@@ -77,28 +74,6 @@ public class Pipeline implements PipelineStage {
 		}
 		return data;
 	}
-	
-	public List<TextData> process(final List<? extends Document> input) {
-		TextData[] in = new TextData[input.size()];
-		int i = 0;
-		for (Document d : input) {
-			in[i] = new TextData(d.getField("text").getValue());
-			for (Map.Entry<String, Field> e : d.getFields().entrySet()) {
-				Field field = e.getValue();
-				
-				Object value = null;
-				if (field instanceof ListField) {
-					value = ((ListField) field).getList();
-				} else {
-					value = field.getValue();
-				}
-				
-				in[i].putField(e.getKey(), value);
-			}
-			i++;
-		}
-		return Arrays.asList(process(in));
-	}
 
 	/**
 	 * @param input the list of data to process.
@@ -124,14 +99,6 @@ public class Pipeline implements PipelineStage {
 	 */
 	public List<CharSequence> stringProcess(final CharSequence... input) {
 		return new ArrayList<CharSequence>(Arrays.asList(process(input)));
-	}
-	
-	public List<CharSequence> stringProcess(List<Document> corpus) {
-		final List<String> strings = new ArrayList<String>();
-		for (Document d : corpus) {
-			strings.add(d.getField("text").getValue());
-		}
-		return stringProcess(strings.toArray(new String[0]));
 	}
 
 	private boolean shouldSnapshot(final PipelineStage step) {
