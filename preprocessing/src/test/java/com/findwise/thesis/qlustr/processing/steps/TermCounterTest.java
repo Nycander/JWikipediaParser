@@ -36,7 +36,7 @@ public class TermCounterTest {
 	}
 	
 	@Test
-	public void testGetTermCounts_with_åäö() {
+	public void testGetTermCounts_with_special_chars() {
 		TextData[] output = termcalc.process(constructInput("årorna", "äro",
 				"väldigt", "goda", "sa", "årorna"));
 		
